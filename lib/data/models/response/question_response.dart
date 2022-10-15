@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_architecture/domain/entities/question.dart';
 
-class QuestionReponse extends Equatable {
+class QuestionResponse extends Equatable {
   final String category;
   final String difficulty;
   final String question;
   final String correctAnswer;
   final List<String> incorrectAnswers;
 
-  const QuestionReponse({
+  const QuestionResponse({
     required this.category,
     required this.difficulty,
     required this.question,
@@ -23,8 +24,20 @@ class QuestionReponse extends Equatable {
         correctAnswer,
         incorrectAnswers,
       ];
-  factory QuestionReponse.fromMap(Map<String, dynamic> map) {
-    return QuestionReponse(
+
+  Question toEntity() {
+    return Question(
+        category: category,
+        difficulty: difficulty,
+        question: question,
+        correctAnswer: correctAnswer,
+        answers: incorrectAnswers
+          ..add(correctAnswer)
+          ..shuffle());
+  }
+
+  factory QuestionResponse.fromMap(Map<String, dynamic> map) {
+    return QuestionResponse(
       category: map['category'] ?? '',
       difficulty: map['difficulty'] ?? '',
       question: map['question'] ?? '',
